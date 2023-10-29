@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-/* GET users listing. */
+/* GET streamers listing. */
 router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+  res.send({ streamers: [] });
 });
 
 module.exports = router;
