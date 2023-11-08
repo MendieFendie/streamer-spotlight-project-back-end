@@ -3,14 +3,13 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+require("dotenv").config();
+
+const PORT = process.env.PORT;
 
 const streamersRouter = require("./routes/streamers");
 
 const app = express();
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -18,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/streamers", streamersRouter);
+app.use("/", streamersRouter);
 
 app.get("/", function (req, res) {
   res.send("Welcome to the root path!");
@@ -40,8 +39,8 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-app.listen(3001, () => {
-  console.log("Server started on 3001 port");
+app.listen(`${PORT}`, () => {
+  console.log(`Server started on ${PORT} port`);
 });
 
 module.exports = app;
