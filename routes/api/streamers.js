@@ -11,4 +11,5 @@ router.get("/", getAllStreamers);
 router.post("/", addStreamer);
 
 router.patch("/", updateStreamer);
+
 module.exports = router;

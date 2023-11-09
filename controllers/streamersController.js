@@ -1,4 +1,3 @@
-const Streamer = require("../service/schemas/streamerSchema");
 const {
   getAll,
   getById,
@@ -35,7 +34,7 @@ const updateStreamer = async (req, res) => {
 
   const contactToEdit = await getById(id);
 
-  if ((action = true)) {
+  if (action === true) {
     contactToEdit.upvotes += 1;
 
     const result = await upvote(id, contactToEdit);
