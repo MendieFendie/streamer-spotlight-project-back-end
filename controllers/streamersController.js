@@ -16,23 +16,29 @@ const getAllStreamers = async (req, res) => {
 };
 
 const addStreamer = async (req, res) => {
-  const { name, description, ownerId } = req.body;
-  const { _id } = req.user;
+  const { name, description, platform } = req.body;
   const streamer = {
     name: name,
+    platform: platform,
     description: description,
     upvotes: 0,
     downvotes: 0,
-    ownerId: ownerId,
   };
-  const data = await add(streamer);
-  res.status(201).json(data);
+  try {
+    const data = await add(streamer);
+    res.status(201).json(data);
+  } catch (error) {
+    console.log(error);
+    res.send(500);
+  }
 };
 
 const updateStreamer = async (req, res) => {
-  const { id, action } = req;
+  const { id, action } = req.body;
 
   const contactToEdit = await getById(id);
+
+  console.log(contactToEdit);
 
   if (action === true) {
     contactToEdit.upvotes += 1;

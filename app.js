@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 require("dotenv").config();
 
-const streamersRouter = require("./routes/streamers");
+const streamersRouter = require("./routes/api/streamers");
 
 const app = express();
 
