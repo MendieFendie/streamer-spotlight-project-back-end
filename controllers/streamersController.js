@@ -23,6 +23,8 @@ const addStreamer = async (req, res) => {
     description: description,
     upvotes: 0,
     downvotes: 0,
+    upvotesList: [],
+    downvotesList: [],
   };
   try {
     const data = await add(streamer);
@@ -34,13 +36,13 @@ const addStreamer = async (req, res) => {
 };
 
 const updateStreamer = async (req, res) => {
-  const { id, action } = req.body;
+  const { id, action, userId } = req.body;
 
   const contactToEdit = await getById(id);
 
   console.log(contactToEdit);
 
-  if (action === true) {
+  if (action === true && contactToEdit !== userId) {
     contactToEdit.upvotes += 1;
 
     const result = await upvote(id, contactToEdit);

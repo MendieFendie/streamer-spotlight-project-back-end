@@ -15,6 +15,8 @@ const add = ({ name, platform, description }) => {
     description,
     upvotes: 0,
     downvotes: 0,
+    upvotesList: [],
+    downvotesList: [],
   });
 };
 

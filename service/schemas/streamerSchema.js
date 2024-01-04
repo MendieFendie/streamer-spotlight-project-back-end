@@ -28,6 +28,14 @@ const Streamer = mongoose.model(
       type: Number,
       required: true,
     },
+    upvotesList: {
+      type: [String],
+      required: true,
+    },
+    downvotesList: {
+      type: [String],
+      required: true,
+    },
   })
 );
 
