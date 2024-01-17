@@ -5,7 +5,7 @@ const getAll = () => {
 };
 
 const getById = (id) => {
-  return Streamer.find({ _id: id });
+  return Streamer.findOne({ _id: id });
 };
 
 const add = ({ name, platform, description }) => {

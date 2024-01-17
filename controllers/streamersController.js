@@ -38,20 +38,65 @@ const addStreamer = async (req, res) => {
 const updateStreamer = async (req, res) => {
   const { id, action, userId } = req.body;
 
-  const contactToEdit = await getById(id);
+  try {
+    const streamerToEdit = await getById(id);
 
-  console.log(contactToEdit);
+    if (!streamerToEdit) {
+      return res.status(404).json({ error: "Streamer not found" });
+    }
 
-  if (action === true && contactToEdit !== userId) {
-    contactToEdit.upvotes += 1;
+    const idUpvoteCheck = streamerToEdit.upvotesList.includes(userId);
+    const idDownvoteCheck = streamerToEdit.downvotesList.includes(userId);
 
-    const result = await upvote(id, contactToEdit);
-    res.send(result);
-  } else {
-    contactToEdit.upvotes -= 1;
+    if (action === true) {
+      if (!idUpvoteCheck) {
+        streamerToEdit.upvotes += 1;
+        streamerToEdit.upvotesList.push(userId);
 
-    const result = await downvote(id, contactToEdit);
-    res.send(result);
+        if (idDownvoteCheck) {
+          streamerToEdit.downvotes -= 1;
+          streamerToEdit.downvotesList = streamerToEdit.downvotesList.filter(
+            (id) => id !== userId
+          );
+        }
+        const result = await upvote(id, streamerToEdit);
+        res.json({ message: "Upvoted successfully", data: result });
+      } else {
+        // User had already upvoted, remove the upvote
+        streamerToEdit.upvotes -= 1;
+        streamerToEdit.upvotesList = streamerToEdit.upvotesList.filter(
+          (id) => id !== userId
+        );
+
+        const result = await upvote(id, streamerToEdit);
+        res.json({ message: "Upvote removed successfully", data: result });
+      }
+    } else {
+      if (!idDownvoteCheck) {
+        streamerToEdit.downvotes += 1;
+        streamerToEdit.downvotesList.push(userId);
+
+        if (idUpvoteCheck) {
+          streamerToEdit.upvotes -= 1;
+          streamerToEdit.upvotesList = streamerToEdit.upvotesList.filter(
+            (id) => id !== userId
+          );
+        }
+        const result = await downvote(id, streamerToEdit);
+        res.json({ message: "Downvoted successfully", data: result });
+      } else {
+        streamerToEdit.downvotes -= 1;
+        streamerToEdit.downvotesList = streamerToEdit.downvotesList.filter(
+          (id) => id !== userId
+        );
+
+        const result = await downvote(id, streamerToEdit);
+        res.json({ message: "Downvote removed successfully", data: result });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
