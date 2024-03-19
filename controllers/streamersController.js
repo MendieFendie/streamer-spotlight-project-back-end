@@ -15,10 +15,26 @@ const getAllStreamers = async (req, res) => {
   }
 };
 
+const getStreamerById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const data = await getById(id);
+    if (!data) {
+      return res.status(404).json({ error: "Streamer not found" });
+    }
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const addStreamer = async (req, res) => {
-  const { name, description, platform } = req.body;
+  const { name, avatar, description, platform } = req.body;
   const streamer = {
     name: name,
+    avatar: avatar,
     platform: platform,
     description: description,
     upvotes: 0,
@@ -62,7 +78,6 @@ const updateStreamer = async (req, res) => {
         const result = await upvote(id, streamerToEdit);
         res.json({ message: "Upvoted successfully", data: result });
       } else {
-        // User had already upvoted, remove the upvote
         streamerToEdit.upvotes -= 1;
         streamerToEdit.upvotesList = streamerToEdit.upvotesList.filter(
           (id) => id !== userId
@@ -104,4 +119,5 @@ module.exports = {
   getAllStreamers,
   addStreamer,
   updateStreamer,
+  getStreamerById,
 };

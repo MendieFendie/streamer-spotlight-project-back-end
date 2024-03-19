@@ -5,12 +5,13 @@ const getAll = () => {
 };
 
 const getById = (id) => {
-  return Streamer.findOne({ _id: id });
+  return Streamer.findById(id);
 };
 
-const add = ({ name, platform, description }) => {
+const add = ({ name, avatar, platform, description }) => {
   return Streamer.create({
     name,
+    avatar,
     platform,
     description,
     upvotes: 0,

@@ -5,11 +5,12 @@ const {
   getAllStreamers,
   addStreamer,
   updateStreamer,
+  getStreamerById,
 } = require("../../controllers/streamersController");
 
-router.get("/", getAllStreamers);
+router.get("/", getAllStreamers, getStreamerById);
+router.get("/streamers/:id", getStreamerById);
 router.post("/", addStreamer);
-
 router.patch("/", updateStreamer);
 
 module.exports = router;

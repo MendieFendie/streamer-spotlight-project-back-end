@@ -5,10 +5,14 @@ const Streamer = mongoose.model(
   "streamers",
   new Schema({
     id: {
-      type: Number,
+      type: String,
       required: false,
     },
     name: {
+      type: String,
+      required: true,
+    },
+    avatar: {
       type: String,
       required: true,
     },
