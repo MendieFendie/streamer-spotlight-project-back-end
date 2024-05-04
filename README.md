@@ -24,7 +24,7 @@ This repository contains the code for a RESTful API that manages information abo
 1. Clone the repository and navigate to the project directory.
 2. Install dependencies with `npm install`.
 3. Create a `.env` file with your MongoDB URI (URIDB=<your-mongodb-uri>).
-4. Start the server with `npm start`.
+4. Start the server with `node server.js`.
 
 ## API Endpoints
 
